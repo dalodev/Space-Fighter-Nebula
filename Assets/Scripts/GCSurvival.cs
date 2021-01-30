@@ -49,7 +49,6 @@ public class GCSurvival : MonoBehaviour
     private UnityAds unityAds;
     private bool isScreenDisable;
     private int scorePaused;
-    HighScoreDreamlo highscoreManager;
     private string username;
     private Music music;
     private bool isOnlineHighScore;
@@ -140,7 +139,7 @@ public class GCSurvival : MonoBehaviour
         isStartGame = false;
         IsScreenDisable = true;
         gameOverText.gameObject.gameObject.SetActive(false);
-        highscoreManager = GameObject.FindObjectOfType(typeof(HighScoreDreamlo)) as HighScoreDreamlo;
+        //highscoreManager = GameObject.FindObjectOfType(typeof(HighScoreDreamlo)) as HighScoreDreamlo;
         
 
         if (PlayerPrefs.GetInt("MuteSound") == 1)
@@ -402,7 +401,7 @@ public class GCSurvival : MonoBehaviour
         {
             IsScreenDisable = false;
         }
-        if(highscoreManager.highScoresList.Length > 0)
+        /*if(highscoreManager.highScoresList.Length > 0)
         {
             for (int i = 0; i < highscoreManager.highScoresList.Length; i++)
             {
@@ -440,7 +439,7 @@ public class GCSurvival : MonoBehaviour
             isOnlineHighScore = true;
             highScoreController.SetActive(true);
             //PlayerPrefs.SetInt("HighScore", Score);
-        }
+        }*/
 
         return IsScreenDisable;
         
@@ -489,7 +488,7 @@ public class GCSurvival : MonoBehaviour
             else
             {
                 //username.ToLower();
-                HighScoreDreamlo.AddNewHighScore(username, Score);
+                // HighScoreDreamlo.AddNewHighScore(username, Score);
                 usernameInput.SetActive(false);
                 gameOverText.text = "Game Over \nPress Screen to Restart";
                 IsScreenDisable = false;

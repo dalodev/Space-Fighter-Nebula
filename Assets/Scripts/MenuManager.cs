@@ -9,18 +9,11 @@ public class MenuManager : MonoBehaviour {
     public AudioSource btnAudio;
     public Button[] buttons;
     public Button continueButton;
-    public float velocidadFade = 0.1f;
+    public float speedNavigation = 2.0f;
     public string scene;
     public FadeOffImage[] fadeOffImages;
-    private float alpha = 255f;
     AsyncOperation async;
     private Music music;
-
-    void Awake()
-    {
-        //DontDestroyOnLoad(this.gameObject);
-        
-    }
 
     void Start()
     {
@@ -48,15 +41,10 @@ public class MenuManager : MonoBehaviour {
         {
             music.audio.Play();
         }
-        /*quitButton.onClick.AddListener(() => {
-            Application.Quit();
-        });*/
     }
 
     void Update()
     {
-        
-
         if (scene == "Menu")
         {
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -71,11 +59,8 @@ public class MenuManager : MonoBehaviour {
                 SceneManager.LoadScene(scene);
             }
         }
-        
-
-        
-
     }
+
     private void MuteSound()
     {
         foreach (AudioSource a in FindObjectsOfType(typeof(AudioSource)))
@@ -93,9 +78,7 @@ public class MenuManager : MonoBehaviour {
             btn.enabled = false;
         }
         PlayerPrefs.SetInt("GamePaused", 0);
-        //Application.LoadLevel(1);
-        //SceneManager.LoadScene(1);
-        //StartCoroutine(FadeOff());
+
         StartCoroutine("LoadScene");
         SwitchScene();
     }
@@ -107,9 +90,7 @@ public class MenuManager : MonoBehaviour {
         {
             btn.enabled = false;
         }
-        //Application.LoadLevel(1);
-        //SceneManager.LoadScene(1);
-        //StartCoroutine(FadeOff());
+
         StartCoroutine("LoadScene");
         SwitchScene();
     }
@@ -121,31 +102,33 @@ public class MenuManager : MonoBehaviour {
         Application.Quit();
     }
 
-    public void navigateToPrivacyPolicy()
+    public void NavigateToPrivacyPolicy()
     {
         Application.OpenURL("https://davidalonsosantos1.wixsite.com/spacefighternebula");
     }
 
+    public void NavigateToSettings(float speed)
+    {
+        speedNavigation = speed;
+        StartCoroutine(FadeOff(3));
+    }
+
     IEnumerator FadeOff(int scene)
     {
-        /*foreach (MonoBehaviour mono in gameObject.GetComponentsInChildren<MonoBehaviour>())
-        {
-            mono.enabled = true;
-            //yield return null;
-        }*/
         foreach(FadeOffImage f in fadeOffImages)
         {
             f.enabled = true;
         }
         
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(speedNavigation);
         SceneManager.LoadScene(scene);
+        speedNavigation = 2.0f;
     }
+
     IEnumerator LoadScene()
     {
 
         async = SceneManager.LoadSceneAsync(1);
-        //async = Application.LoadLevelAsync(1);
         async.allowSceneActivation = false;
 
         Debug.Log("start loading");
@@ -155,7 +138,6 @@ public class MenuManager : MonoBehaviour {
         }
         yield return async;
     }
-
     
     private void SwitchScene()
     {
@@ -167,16 +149,10 @@ public class MenuManager : MonoBehaviour {
             async.allowSceneActivation = true;
         }
     }
-    private bool fading = false;
 
-
-    public void HighScores()
+    public void HighScores(float speed)
     {
-        btnAudio.Play();
+        speedNavigation = speed;
         StartCoroutine(FadeOff(2));
-        //SceneManager.LoadScene(2);
     }
-
-    
-
 }
